@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d336c">
+<title>Administration — Lycée OUNABE</title>
+<style>
+:root{--bg:#1d336c;--panel:#3a4d80;--head:#263b78;--gold:#e8b830;--navy:#1a3a5c;--mut:#aeb9db;--blue:#3f6fd1;--ink:#fff;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Roboto,Calibri,Arial,sans-serif;line-height:1.45}
+header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--head);border-bottom:3px solid var(--gold);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header b{font-size:1.05rem}header small{display:block;color:var(--mut);font-size:.72rem}
+nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+nav button,.btn{font:inherit;color:#fff;background:var(--panel);border:0;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+nav button.on,.btn.p{background:var(--blue);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 40px}
+.view{display:none}.view.on{display:block}
+h1{font-size:clamp(1.8rem,6vw,2.8rem);margin:.2em 0}
+.bar{width:90px;height:4px;background:var(--gold);margin:6px 0 12px}
+.sub{color:#b9c5ea;max-width:46ch}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0}
+.kpi div{background:var(--panel);border-top:4px solid var(--c);border-radius:8px;padding:10px;text-align:center}
+.kpi span{display:block;font-size:.75rem;color:var(--mut)}.kpi strong{font-size:1.7rem}
+.sec{background:var(--panel);border-left:5px solid var(--gold);padding:8px 14px;font-weight:700;margin:22px 0 12px;border-radius:0 8px 8px 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.tile{display:flex;border:0;padding:0;text-align:left;color:#fff;background:var(--c);border-radius:10px;overflow:hidden;cursor:pointer;font:inherit;min-height:84px}
+.tile i{flex:0 0 64px;display:grid;place-items:center;font:normal 28px "Segoe UI Symbol",sans-serif;background:rgba(0,0,0,.18)}
+.tile span{padding:10px 12px}.tile b{display:block}.tile small{opacity:.92;font-size:.78rem}
+form,.card{background:var(--panel);border-radius:12px;padding:20px;max-width:420px}form.w,.card.w{max-width:none}
+label{display:block;font-size:.85rem;margin:12px 0 4px;color:var(--mut)}
+input,select{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid #5a6ca0;background:var(--head);color:#fff}
+.note{font-size:.78rem;color:var(--mut);margin-top:12px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}.tools div{min-width:170px}
+.sheet{background:#fff;color:#000;padding:18px;border:1px solid #000;overflow-x:auto}
+.sheet h2{text-align:center;margin:6px 0;font-size:1.15rem}
+.sheet .top{display:flex;justify-content:space-between;font-size:.78rem;gap:10px}
+.sheet .who{border:1px solid #000;padding:8px;margin:10px 0;display:flex;flex-wrap:wrap;gap:6px 24px;font-size:.88rem}
+.sheet .who b.n{font-size:1.05rem}
+table{border-collapse:collapse;width:100%;font-size:.84rem;min-width:520px}
+th,td{border:1px solid #000;padding:4px 6px;text-align:center}td:first-child,th:first-child{text-align:left}
+th{font-weight:700}
+.sheet h3{font-size:.95rem;margin:16px 0 6px}.sheet img{display:block}.res{margin-top:10px;font-weight:700}
+.sig{display:flex;justify-content:space-between;margin-top:26px;font-size:.85rem}
+table.in input{width:68px;text-align:center;padding:4px}table.in td,table.in th{background:var(--panel);color:#fff;border-color:#1d336c}.ban{background:#7a3b1d;border-radius:8px;padding:10px 14px;margin:12px 0}.ok{color:#9be2b1}.hide{display:none!important}textarea{width:100%;min-height:180px;font:inherit;padding:10px;border-radius:8px;border:1px solid #5a6ca0;background:var(--head);color:#fff}
+
+:root{padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+button,select,.tile{touch-action:manipulation}
+table{min-width:0}.sheet table{min-width:520px}
+table.in td:first-child{position:sticky;left:0;z-index:1;background:var(--panel);min-width:140px}
+@media (pointer:coarse){nav button,.btn{min-height:44px}input,select{min-height:44px}}
+@media (max-width:700px){header{position:static;flex-wrap:wrap;gap:6px 10px;padding:8px 12px}nav{margin-left:0;width:100%;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}nav button{flex:0 0 auto;white-space:nowrap}main{padding:14px 12px 32px}table.in input{width:54px;padding:4px 2px}table.in td,table.in th{padding:4px 3px}table.in td:first-child{min-width:104px}.kpi{grid-template-columns:repeat(3,1fr);gap:8px}.kpi div{padding:8px 4px}.kpi span{font-size:.68rem}.kpi strong{font-size:1.4rem}.tools div{min-width:100%}.tools .btn{flex:1 1 100%}h1{font-size:1.9rem}}
+@media screen and (max-width:600px){.sheet{padding:12px}.sheet .top{flex-direction:column;align-items:center;text-align:center}.sheet .top>div{text-align:center!important}}
+@media print{header,.tools,.no-print,.sec{display:none!important}body{background:#fff}main{padding:0;max-width:none}.sheet{border:0;padding:0}:root{padding:0}}
+</style></head><body>
+<header><b>Lycée OUNABE<small>DRE Plateau Ouest · IESG-Badou</small></b>
+<nav aria-label="Navigation"><button data-v="home" class="on">Accueil</button><button data-v="sai">Saisie des notes</button><button data-v="bul">Bulletin</button><button data-v="sta">Statistiques</button><button data-v="cla" id="ncla" class="hide">Inscriptions</button><button data-v="imp" id="nimp" class="hide">Importer</button><button data-v="set" id="nset" class="hide">Paramètres</button><button data-v="sav">Sauvegarde</button></nav></header>
+<main>
+<div class="ban hide" id="off">Impossible d’enregistrer : le navigateur bloque le stockage local (navigation privée ?). Ouvrez cette page dans un onglet normal.</div>
+<section id="home" class="view on"><h1>Portail scolaire</h1><div class="bar"></div>
+<p class="sub">Chaque enseignant saisit ses notes ici ; les bulletins se calculent automatiquement et s’exportent en PDF.</p>
+<div class="kpi"><div style="--c:#4fa8d8"><span>Classes</span><strong>6</strong></div><div style="--c:#f5b232"><span>Matières</span><strong>11</strong></div><div style="--c:#e58ab5"><span>Trimestres</span><strong>3</strong></div></div>
+<div class="sec">▾ Services</div>
+<div class="tiles">
+<button class="tile" data-v="sai" style="--c:#54a797"><i>✎</i><span><b>Saisie des notes</b><small>Choisissez classe, matière et trimestre.</small></span></button>
+<button class="tile" data-v="bul" style="--c:#4a7fd6"><i>▤</i><span><b>Bulletin de notes</b><small>Résultats par élève, export PDF.</small></span></button>
+<button class="tile" data-v="sta" style="--c:#4fa8d8"><i>◔</i><span><b>Statistiques</b><small>Par classe et par matière, export PDF.</small></span></button>
+<button class="tile hide" id="tcla" data-v="cla" style="--c:#e0736a"><i>⚙</i><span><b>Inscription des élèves</b><small>Coller les noms, gérer les listes (administrateur).</small></span></button>
+</div></section>
+
+<section id="sai" class="view"><h1>Saisie des notes</h1><div class="bar"></div>
+<div class="tools"><div><label for="sc">Classe</label><select id="sc"></select></div><div><label for="sm">Matière</label><select id="sm"></select></div><div><label for="st">Trimestre</label><select id="st"><option value="1">1er trimestre</option><option value="2">2e trimestre</option><option value="3">3e trimestre</option></select></div></div>
+<p class="note" id="sinfo"></p><div style="overflow-x:auto"><table class="in" id="stb"></table></div>
+<p><button class="btn p" id="sbtn">Enregistrer les notes</button> <button class="btn" id="sexp">Exporter la classe (CSV)</button> <span id="smsg" class="note"></span></p></section>
+
+<section id="bul" class="view"><h1>Bulletin de notes</h1><div class="bar"></div>
+<div class="tools"><div><label for="bc">Classe</label><select id="bc"></select></div><div><label for="be">Élève</label><select id="be"></select></div><div><label for="bt">Trimestre</label><select id="bt"><option value="1">1er trimestre</option><option value="2">2e trimestre</option><option value="3">3e trimestre</option></select></div><button class="btn p" id="bpdf">Exporter en PDF</button> <button class="btn" id="ball">PDF de toute la classe</button> <button class="btn" onclick="window.print()">Imprimer</button> <span class="note" id="bmsg"></span></div>
+<div class="sheet" id="sheet"></div></section>
+
+<section id="cla" class="view"><h1>Inscription des élèves</h1><div class="bar"></div>
+<div class="card w"><label for="lc">Classe</label><select id="lc"></select>
+<label for="lt">Collez les noms (un élève par ligne, copiés depuis Excel ou Word) : matricule puis nom, ou le nom seul</label>
+<textarea id="lt" placeholder="20385 ; AGBODJAN Koffi&#10;TCHASSI Afi"></textarea>
+<p class="note" id="lcnt">0 élève détecté</p>
+<p><button class="btn p" id="ladd">Ajouter à la liste</button> <button class="btn" id="lrep">Remplacer la liste</button> <span id="lmsg" class="note"></span></p></div>
+<div class="sec">Élèves inscrits</div><div style="overflow-x:auto"><table class="in" id="llist"></table></div></section>
+<section id="sta" class="view"><h1>Statistiques</h1><div class="bar"></div>
+<div class="tools"><div><label for="xc">Classe (détail)</label><select id="xc"></select></div><div><label for="xt">Trimestre</label><select id="xt"><option value="1">1er trimestre</option><option value="2">2e trimestre</option><option value="3">3e trimestre</option></select></div><button class="btn p" id="xpdf">Exporter en PDF</button> <span class="note" id="xmsg"></span></div>
+<div class="sheet" id="sres"></div></section>
+<section id="imp" class="view"><h1>Importer des notes</h1><div class="bar"></div>
+<div class="card w"><p class="note">Collez ici les messages reçus des enseignants (WhatsApp, e-mail…). Chaque message commence par NOTES|classe|matière|trimestre. Vous pouvez en coller plusieurs à la suite.</p>
+<textarea id="it" placeholder="NOTES|3eme|Mathématiques|1|Prof: …"></textarea>
+<p><label style="display:flex;gap:8px;align-items:center;margin:0"><input type="checkbox" id="iadd" style="width:auto;min-height:0"> Ajouter à la liste de la classe les élèves non trouvés</label></p>
+<p><button class="btn p" id="ibtn">Importer les notes</button></p><div id="imsg" class="note"></div></div></section>
+<section id="sav" class="view"><h1>Sauvegarde</h1><div class="bar"></div>
+<div class="card w"><p class="note">Les données (élèves, notes, paramètres) sont enregistrées dans le navigateur de cet appareil. Téléchargez régulièrement une sauvegarde, et gardez-la en lieu sûr (téléphone, clé USB, e-mail).</p>
+<p><button class="btn p" id="svb">Télécharger la sauvegarde</button></p>
+<label for="svr">Restaurer une sauvegarde (fichier .json)</label><input id="svr" type="file" accept=".json,application/json"><p class="note" id="svm"></p></div></section>
+<section id="set" class="view"><h1>Paramètres</h1><div class="bar"></div>
+<div class="card w"><label for="pc">Classe</label><select id="pc"></select>
+<label for="pt">Titulaire de la classe</label><input id="pt" autocomplete="off">
+<label for="pp">Proviseur (pour tout l’établissement)</label><input id="pp" autocomplete="off">
+<div class="sec">Coefficients de la classe (0 = matière non comptée)</div>
+<div style="overflow-x:auto"><table class="in" id="pk"></table></div>
+<p><button class="btn p" id="pbtn">Enregistrer</button> <span id="pmsg" class="note"></span></p></div></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+const CL=[["6eme","6ème"],["5eme","5ème"],["4eme","4ème"],["3eme","3ème"],["2ndeS","2nde S"],["2ndeL","2nde Littéraire"]];
+const MT=[["Mathématiques",4],["SVT",2],["Sciences physiques",2],["Français",4],["Anglais",3],["Histoire-Géographie",2],["ECM",1],["EPS",1],["Arts plastiques",1],["LV2",1],["Informatique",1]];
+const $=i=>document.getElementById(i);let db=null,usr=null,meId=null;
+const KV={get:k=>{try{return JSON.parse(localStorage.getItem("ounabe:"+k))}catch(e){return null}},set:(k,v)=>localStorage.setItem("ounabe:"+k,JSON.stringify(v))};
+const LDB={doc:p=>({get:async()=>{const v=KV.get(p);return{exists:v!=null,data:()=>v}},set:async d=>KV.set(p,d)}),collection:n=>({where:(f,o,v)=>({get:async()=>({docs:Object.keys(localStorage).filter(k=>k.startsWith("ounabe:"+n+"/")).map(k=>JSON.parse(localStorage.getItem(k))).filter(d=>d[f]===v).map(d=>({data:()=>d}))})})})};
+const LUSR={id:async()=>"local",canEdit:async()=>true,profiles:async ids=>Object.fromEntries(ids.map(i=>[i,{name:"cet appareil"}]))};
+function dlFile(name,data,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+const R=n=>(Math.round(n*100)/100).toFixed(2).replace(".",",");
+const apr=n=>n>=16?"Très bien":n>=14?"Bien":n>=12?"Assez bien":n>=10?"Passable":"Insuffisant";
+const clName=k=>CL.find(c=>c[0]===k)[1];
+const opt=(sel,list)=>{sel.innerHTML="";list.forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;sel.appendChild(o)})};
+[$("sc"),$("bc"),$("lc"),$("pc"),$("xc")].forEach(s=>opt(s,CL));opt($("sm"),MT.map((m,i)=>[i,m[0]]));
+function go(v){document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id===v));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));scrollTo(0,0);if(v==="sai")loadSai();if(v==="bul")loadBulStudents();if(v==="cla")loadCla();if(v==="set")loadSet();if(v==="sta")loadSta()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(b)go(b.dataset.v)});
+const slug=t=>t.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+async function students(cls){if(!db)return[];const d=await db.doc("classes/"+cls).get();return d.exists?(d.data().students||[]):[]}
+async function settings(cls){const o={coefs:MT.map(m=>m[1]),titulaire:"",proviseur:""};if(!db)return o;try{const a=await db.doc("settings/"+cls).get(),b=await db.doc("settings/etab").get();if(a.exists){const d=a.data();if(d.coefs)o.coefs=d.coefs;o.titulaire=d.titulaire||""}if(b.exists)o.proviseur=b.data().proviseur||""}catch(e){}return o}
+async function loadSet(){$("pmsg").textContent="";const S=await settings($("pc").value);$("pt").value=S.titulaire;$("pp").value=S.proviseur;
+const tb=$("pk");tb.innerHTML="<tr><th>Matière</th><th>Coef.</th></tr>";MT.forEach((m,i)=>{const r=document.createElement("tr"),a=document.createElement("td"),c=document.createElement("td"),n=document.createElement("input");a.textContent=m[0];n.type="number";n.inputMode="numeric";n.min=0;n.max=10;n.step=1;n.value=S.coefs[i];n.dataset.i=i;n.setAttribute("aria-label","Coefficient "+m[0]);c.appendChild(n);r.appendChild(a);r.appendChild(c);tb.appendChild(r)})}
+$("pc").onchange=loadSet;
+$("pbtn").onclick=async()=>{if(!db)return;const coefs=MT.map(()=>0);let bad=false;document.querySelectorAll("#pk input").forEach(i=>{const v=+i.value;if(!Number.isInteger(v)||v<0||v>10)bad=true;coefs[+i.dataset.i]=v});
+if(bad){$("pmsg").className="note";$("pmsg").textContent="Les coefficients doivent être des entiers de 0 à 10.";return}
+try{await db.doc("settings/"+$("pc").value).set({coefs,titulaire:$("pt").value.trim()});await db.doc("settings/etab").set({proviseur:$("pp").value.trim()});$("pmsg").className="note ok";$("pmsg").textContent="Paramètres enregistrés."}catch(e){$("pmsg").className="note";$("pmsg").textContent="Réservé à l’administrateur."}};
+async function init(){try{localStorage.setItem("ounabe:t","1");localStorage.removeItem("ounabe:t");usr=LUSR;db=LDB}catch(e){}
+if(!db){$("off").classList.remove("hide");return}
+try{meId=await usr.id();if(await usr.canEdit()){$("ncla").classList.remove("hide");$("tcla").classList.remove("hide");$("nset").classList.remove("hide");$("nimp").classList.remove("hide")}}catch(e){}}
+// Saisie
+const key=()=>`${$("sc").value}_${$("sm").value}_${$("st").value}`;
+async function loadSai(){const cls=$("sc").value;$("smsg").textContent="";$("sinfo").textContent="";
+if(!db){$("stb").innerHTML="";return}
+const st=await students(cls);
+if(!st.length){$("stb").innerHTML="";$("sinfo").textContent="Aucun élève dans cette classe : l’administrateur doit d’abord ajouter la liste.";return}
+const d=await db.doc("notes/"+key()).get(),rows=d.exists?d.data().rows||{}:{};
+if(d.exists&&d.data().by&&usr){try{const p=await usr.profiles([d.data().by]);$("sinfo").textContent="Dernière saisie par "+(p[d.data().by].name||"un collègue")}catch(e){}}
+const tb=$("stb");tb.innerHTML="<tr><th>Élève</th><th>Interro</th><th>Devoir</th><th>Compo.</th></tr>";
+st.forEach(s=>{const r=document.createElement("tr"),td=document.createElement("td");td.textContent=s.n;r.appendChild(td);
+for(let j=0;j<3;j++){const c=document.createElement("td"),i=document.createElement("input");i.type="number";i.inputMode="decimal";i.min=0;i.max=20;i.step=.25;i.dataset.s=s.id;i.dataset.j=j;i.setAttribute("aria-label",s.n);const v=(rows[s.id]||[])[j];i.value=v==null?"":v;c.appendChild(i);r.appendChild(c)}tb.appendChild(r)})}
+["sc","sm","st"].forEach(i=>$(i).onchange=loadSai);
+$("sbtn").onclick=async()=>{if(!db)return;const rows={};let bad=false;
+document.querySelectorAll("#stb input").forEach(i=>{if(i.value==="")return;const v=+i.value;if(v<0||v>20)bad=true;(rows[i.dataset.s]=rows[i.dataset.s]||[null,null,null])[i.dataset.j]=v});
+if(bad){$("smsg").textContent="Les notes doivent être comprises entre 0 et 20.";return}
+try{await db.doc("notes/"+key()).set({cls:$("sc").value,m:+$("sm").value,t:+$("st").value,rows,by:meId,at:Date.now()});$("smsg").textContent="Notes enregistrées.";$("smsg").className="note ok"}catch(e){$("smsg").className="note";$("smsg").textContent="Enregistrement refusé : demandez à l’administrateur le droit de modification."}};
+$("sexp").onclick=async()=>{if(!db)return;const cls=$("sc").value,t=+$("st").value,st=await students(cls),q=await db.collection("notes").where("cls","==",cls).get(),docs=q.docs.map(d=>d.data()).filter(d=>d.t===t);
+let c="\ufeffÉlève;"+MT.map(m=>`${m[0]} interro;${m[0]} devoir;${m[0]} compo`).join(";")+"\n";
+st.forEach(s=>{c+=s.n+";"+MT.map((m,i)=>{const d=docs.find(x=>x.m===i),r=d&&d.rows[s.id]||[];return[r[0],r[1],r[2]].map(v=>v==null?"":v).join(";")}).join(";")+"\n"});
+try{dlFile(`notes_${cls}_T${t}.csv`,c,"text/csv")}catch(e){$("smsg").textContent="Export non disponible."}};
+// Calculs
+const LOGO="data:image/png;base64,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";
+const esc=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+async function loadD(cls,t){const [st,S,q]=await Promise.all([students(cls),settings(cls),db?db.collection("notes").where("cls","==",cls).get():{docs:[]}]);return{cls,t,st,S,docs:q.docs.map(d=>d.data()).filter(d=>d.t===t)}}
+function calc(D,sid){const rows=[];MT.forEach((m,i)=>{const d=D.docs.find(x=>x.m===i),r=d&&d.rows[sid],c=D.S.coefs[i];if(!c||!r||r.some(v=>v==null))return;const mc=(r[0]+r[1])/2;rows.push({i,m:m[0],c,r,mc,n:(mc+r[2])/2})});const tc=rows.reduce((a,x)=>a+x.c,0),tp=rows.reduce((a,x)=>a+x.n*x.c,0);return{rows,tc,tp,moy:tc?tp/tc:null}}
+const tr=a=>`<tr>${a.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`;
+const tbl=(h,r)=>`<table><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr>${r.length?r.map(tr).join(""):`<tr><td colspan="${h.length}">Aucune donnée</td></tr>`}</table>`;
+const newDoc=()=>window.jspdf?new window.jspdf.jsPDF({unit:"mm",format:"a4"}):null;
+async function savePdf(doc,name,out){try{dlFile(name,doc.output("arraybuffer"),"application/pdf")}catch(e){out.textContent="Export PDF indisponible ici."}}
+document.querySelector("header").insertAdjacentHTML("afterbegin",`<img src="${LOGO}" alt="" width="38" height="35">`);
+// Bulletin
+async function loadBulStudents(){const st=await students($("bc").value);opt($("be"),st.map(s=>[s.id,s.n]));if(!st.length)$("sheet").textContent="Aucun élève dans cette classe.";else bul()}
+function sheetHTML(D,s){const c=calc(D,s.id),cn=esc(clName(D.cls));return`<div class="top"><div><b>MINISTÈRE DE L’ÉDUCATION NATIONALE</b><br>DRE PLATEAU OUEST — IESG-BADOU<br><b>LYCÉE OUNABE</b></div><img src="${LOGO}" alt="Logo du lycée" width="64" height="58"><div style="text-align:right"><b>RÉPUBLIQUE TOGOLAISE</b><br>Travail – Discipline – Succès<br>Trimestre : ${D.t}</div></div><h2>BULLETIN DE NOTES — ${cn}</h2>
+<div class="who"><span>Nom et prénoms : <b class="n">${esc(s.n)}</b></span>${s.m?`<span>Matricule : ${esc(s.m)}</span>`:""}<span>Classe : ${cn}</span></div>
+<table><tr><th>Matières</th><th>Interro</th><th>Devoir</th><th>M. classe</th><th>Compo.</th><th>Note/20</th><th>Coef.</th><th>Note coef.</th><th>Appréciation</th></tr>${c.rows.map(x=>tr([x.m,x.r[0],x.r[1],R(x.mc),x.r[2],R(x.n),x.c,R(x.n*x.c),apr(x.n)])).join("")}<tr><th>Total coefficients / points</th><th colspan="5"></th><th>${c.tc}</th><th>${R(c.tp)}</th><th></th></tr></table>
+<p class="res">${c.tc?`Moyenne du trimestre : ${R(c.moy)} / 20 — ${apr(c.moy)}`:"Aucune note complète pour ce trimestre."}</p><div class="sig"><span>Le titulaire<br>${esc(D.S.titulaire)}</span><span>Le proviseur<br>${esc(D.S.proviseur)}</span></div>`}
+async function bul(){if(!db||!$("be").value)return;const D=await loadD($("bc").value,+$("bt").value);$("sheet").innerHTML=sheetHTML(D,D.st.find(x=>x.id===$("be").value))}
+function pdfPage(doc,D,s){const c=calc(D,s.id),W=210;doc.setFont("helvetica","bold").setFontSize(8);
+doc.text(["MINISTÈRE DE L’ÉDUCATION NATIONALE","DRE PLATEAU OUEST — IESG-BADOU","LYCÉE OUNABE"],14,16);doc.text(["RÉPUBLIQUE TOGOLAISE","Travail – Discipline – Succès","Trimestre : "+D.t],W-14,16,{align:"right"});doc.addImage(LOGO,"PNG",W/2-12,10,24,22);
+doc.setFontSize(14).text("BULLETIN DE NOTES — "+clName(D.cls),W/2,42,{align:"center"});doc.setFontSize(10).text("Nom et prénoms : "+s.n,14,52);doc.setFont("helvetica","normal").text("Classe : "+clName(D.cls)+(s.m?"     Matricule : "+s.m:""),14,58);
+doc.autoTable({startY:64,head:[["Matières","Interro","Devoir","M. classe","Compo.","Note/20","Coef.","Note coef.","Appréciation"]],body:c.rows.map(x=>[x.m,x.r[0],x.r[1],R(x.mc),x.r[2],R(x.n),x.c,R(x.n*x.c),apr(x.n)].map(String)),foot:[["Total","","","","","",String(c.tc),R(c.tp),""]],showFoot:"lastPage",theme:"grid",styles:{fontSize:8.5,textColor:0,lineColor:0,lineWidth:.1,halign:"center"},headStyles:{fillColor:255,textColor:0,fontStyle:"bold"},footStyles:{fillColor:255,textColor:0,fontStyle:"bold"},columnStyles:{0:{halign:"left"}}});
+const y=doc.lastAutoTable.finalY+8;doc.setFont("helvetica","bold").setFontSize(10).text(c.tc?`Moyenne du trimestre : ${R(c.moy)} / 20 — ${apr(c.moy)}`:"Aucune note complète pour ce trimestre.",14,y);doc.setFont("helvetica","normal").text(["Le titulaire",D.S.titulaire],14,y+20);doc.text(["Le proviseur",D.S.proviseur],W-14,y+20,{align:"right"})}
+$("bpdf").onclick=async()=>{const doc=newDoc();if(!db||!$("be").value)return;if(!doc){window.print();return}const D=await loadD($("bc").value,+$("bt").value);pdfPage(doc,D,D.st.find(x=>x.id===$("be").value));savePdf(doc,`bulletin_${slug($("be").selectedOptions[0].textContent)}_T${D.t}.pdf`,$("bmsg"))};
+$("ball").onclick=async()=>{const doc=newDoc();if(!db)return;if(!doc){$("bmsg").textContent="Export PDF indisponible ici.";return}const D=await loadD($("bc").value,+$("bt").value);if(!D.st.length){$("bmsg").textContent="Aucun élève dans cette classe.";return}D.st.forEach((s,i)=>{if(i)doc.addPage();pdfPage(doc,D,s)});savePdf(doc,`bulletins_${D.cls}_T${D.t}.pdf`,$("bmsg"))};
+$("bc").onchange=loadBulStudents;$("be").onchange=bul;$("bt").onchange=bul;
+// Statistiques
+const agg=a=>a.length?{n:a.length,m:a.reduce((x,y)=>x+y,0)/a.length,lo:Math.min(...a),hi:Math.max(...a),p:100*a.filter(v=>v>=10).length/a.length}:null;
+const fa=g=>g?[g.n,R(g.m),R(g.lo),R(g.hi),Math.round(g.p)+" %"]:[0,"—","—","—","—"];
+let STA=null;const H1=["Classe","Inscrits","Notés","Moyenne","Min","Max","Réussite"],H2=["Matière","Notés","Moyenne","Min","Max","Réussite (≥ 10)"],H3=["Élève","Moyenne","Appréciation"];
+async function loadSta(){if(!db)return;const t=+$("xt").value,Ds=await Promise.all(CL.map(c=>loadD(c[0],t))),sel=$("xc").value,D=Ds.find(d=>d.cls===sel);
+const ov=Ds.map(X=>[clName(X.cls),X.st.length,...fa(agg(X.st.map(q=>calc(X,q.id).moy).filter(v=>v!=null)))]);
+const sj=MT.map((m,i)=>D.S.coefs[i]?[m[0],...fa(agg(D.st.map(q=>{const x=calc(D,q.id).rows.find(r=>r.i===i);return x?x.n:null}).filter(v=>v!=null)))]:null).filter(Boolean);
+const el=D.st.map(q=>{const c=calc(D,q.id);return[q.n,c.moy==null?"—":R(c.moy),c.moy==null?"":apr(c.moy)]});
+STA={t,cls:sel,ov,sj,el};const cn=esc(clName(sel));
+$("sres").innerHTML=`<h2>STATISTIQUES — LYCÉE OUNABE — ${t===1?"1er":t+"e"} trimestre</h2><h3>Par classe</h3>${tbl(H1,ov)}<h3>Par matière — ${cn}</h3>${tbl(H2,sj)}<h3>Moyennes des élèves — ${cn}</h3>${tbl(H3,el)}`}
+$("xc").onchange=loadSta;$("xt").onchange=loadSta;
+$("xpdf").onclick=async()=>{if(!db)return;await loadSta();const doc=newDoc();if(!doc){$("xmsg").textContent="Export PDF indisponible ici.";return}
+doc.setFont("helvetica","bold").setFontSize(14).text(`STATISTIQUES — LYCÉE OUNABE — ${STA.t===1?"1er":STA.t+"e"} trimestre`,14,18);let y=28;
+const o={theme:"grid",styles:{fontSize:8.5,textColor:0,lineColor:0,lineWidth:.1},headStyles:{fillColor:255,textColor:0,fontStyle:"bold"}};
+[["Par classe",H1,STA.ov],["Par matière — "+clName(STA.cls),H2,STA.sj],["Moyennes des élèves — "+clName(STA.cls),H3,STA.el]].forEach(([ti,h,b])=>{if(y>250){doc.addPage();y=18}doc.setFont("helvetica","bold").setFontSize(11).text(ti,14,y);doc.autoTable({...o,startY:y+3,head:[h],body:b.map(r=>r.map(String))});y=doc.lastAutoTable.finalY+10});
+savePdf(doc,`statistiques_${STA.cls}_T${STA.t}.pdf`,$("xmsg"))};
+// Inscriptions
+function parseNames(txt){const out=[];txt.split(/\r?\n/).forEach(l=>{l=l.replace(/^\s*\d{1,3}\s*[.)\-]\s+(?=\D)/,"").trim();if(!l)return;const p=l.split(/\t|;/).map(x=>x.trim()).filter(Boolean);if(p.length>2&&/^\d{1,3}[.)]?$/.test(p[0]))p.shift();let m="",n;if(p.length>1&&/\d/.test(p[0])&&p[0].length<=14){m=p[0];n=p.slice(1).join(" ")}else n=p.join(" ");n=n.replace(/\s+/g," ");if(n)out.push({id:m||slug(n),m,n})});return out}
+$("lt").oninput=()=>{$("lcnt").textContent=parseNames($("lt").value).length+" élève(s) détecté(s)"};
+async function saveList(list,msg){try{await db.doc("classes/"+$("lc").value).set({students:list});$("lmsg").className="note ok";$("lmsg").textContent=msg;$("lt").value="";$("lcnt").textContent="0 élève détecté";loadCla()}catch(e){$("lmsg").className="note";$("lmsg").textContent="Réservé à l’administrateur."}}
+$("ladd").onclick=async()=>{if(!db)return;const cur=await students($("lc").value),add=parseNames($("lt").value),seen=new Set(cur.flatMap(s=>[s.id,slug(s.n)])),fresh=add.filter(s=>!seen.has(s.id)&&!seen.has(slug(s.n))&&seen.add(s.id)&&seen.add(slug(s.n)));if(!add.length){$("lmsg").textContent="Collez d’abord des noms.";return}saveList(cur.concat(fresh),`${fresh.length} élève(s) ajouté(s)`+(add.length>fresh.length?`, ${add.length-fresh.length} doublon(s) ignoré(s)`:""))};
+$("lrep").onclick=()=>{if(!db)return;const l=parseNames($("lt").value);if(!l.length){$("lmsg").textContent="Collez d’abord des noms.";return}saveList(l,"Liste remplacée : "+l.length+" élève(s)")};
+async function loadCla(){const st=await students($("lc").value),tb=$("llist");tb.innerHTML="<tr><th>N°</th><th>Matricule</th><th>Nom et prénoms</th><th></th></tr>";st.forEach((q,i)=>{const r=tb.insertRow();[i+1,q.m||"—",q.n].forEach(v=>r.insertCell().textContent=v);const b=document.createElement("button");b.className="btn";b.textContent="Retirer";b.onclick=async()=>{try{await db.doc("classes/"+$("lc").value).set({students:st.filter(x=>x.id!==q.id)});loadCla()}catch(e){}};r.insertCell().appendChild(b)})}
+$("lc").onchange=loadCla;
+const tok=n=>slug(n).split("-").sort().join("-");
+$("ibtn").onclick=async()=>{if(!db)return;const out=$("imsg");out.textContent="";const bl=$("it").value.split(/^\s*(?=NOTES\|)/m).filter(b=>/^\s*NOTES\|/.test(b));if(!bl.length){out.textContent="Aucun message reconnu.";return}
+const log=[];for(const b of bl){const L=b.trim().split(/\r?\n/),h=L[0].split("|"),cls=(h[1]||"").trim(),mi=MT.findIndex(m=>m[0]===(h[2]||"").trim()),t=+h[3],who=esc((h[4]||"").replace(/^\s*Prof:\s*/,"").trim());
+if(!CL.some(c=>c[0]===cls)||mi<0||!(t>=1&&t<=3)){log.push("Message ignoré (en-tête invalide) : "+esc(L[0].slice(0,50)));continue}
+let st=await students(cls),rows={},add=[],miss=[],n=0;const ex=await db.doc(`notes/${cls}_${mi}_${t}`).get();if(ex.exists)rows=ex.data().rows||{};
+L.slice(1).forEach(l=>{const p=l.split(";");if(p.length<5)return;const m=p[0].trim(),nm=p[1].trim().replace(/\s+/g," "),v=p.slice(2,5).map(x=>{x=x.trim().replace(",",".");return x===""?null:+x});if(!nm||v.some(x=>x!==null&&!(x>=0&&x<=20)))return;
+let s=st.find(q=>(m&&q.m===m)||tok(q.n)===tok(nm));if(!s){if($("iadd").checked){s={id:m||slug(nm),m,n:nm};st=st.concat(s);add.push(nm)}else{miss.push(nm);return}}rows[s.id]=v;n++});
+try{if(add.length)await db.doc("classes/"+cls).set({students:st});await db.doc(`notes/${cls}_${mi}_${t}`).set({cls,m:mi,t,rows,by:meId,at:Date.now()})}catch(e){log.push("Enregistrement refusé pour "+esc(clName(cls)));continue}
+log.push(`${esc(clName(cls))} · ${esc(MT[mi][0])} · T${t}${who?" ("+who+")":""} : ${n} ligne(s) importée(s)`+(add.length?`, ${add.length} élève(s) ajouté(s)`:"")+(miss.length?`, non trouvés : ${esc(miss.join(", "))}`:""))}
+out.innerHTML=log.join("<br>")};
+$("svb").onclick=()=>{const o={};Object.keys(localStorage).filter(k=>k.startsWith("ounabe:")).forEach(k=>o[k]=localStorage.getItem(k));dlFile(`sauvegarde_ounabe_${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(o),"application/json");$("svm").textContent="Sauvegarde téléchargée."};
+$("svr").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const o=JSON.parse(await f.text());let n=0;for(const k in o)if(k.startsWith("ounabe:")&&typeof o[k]==="string"){localStorage.setItem(k,o[k]);n++}$("svm").textContent=n+" éléments restaurés."}catch(x){$("svm").textContent="Fichier invalide."}};
+init();
+</script></body></html>

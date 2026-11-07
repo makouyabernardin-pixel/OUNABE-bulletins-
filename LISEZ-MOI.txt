@@ -1,0 +1,24 @@
+PORTAIL SCOLAIRE — LYCÉE OUNABE (version à héberger soi-même)
+
+CONTENU
+- index.html           : page de SAISIE pour les enseignants (aucun compte requis)
+- administration.html  : page d'ADMINISTRATION (élèves, paramètres, import des notes, bulletins, statistiques, PDF)
+
+COMMENT ÇA MARCHE
+1. Vous publiez ce dossier sur un hébergement gratuit (voir plus bas). L'adresse du site (la racine) mène à la page des enseignants.
+2. Chaque enseignant ouvre cette adresse, colle la liste des élèves, saisit ses notes, puis envoie le message obtenu (WhatsApp ou e-mail).
+3. Vous ouvrez administration.html (adresse du site + /administration.html), onglet « Importer », et vous collez les messages reçus.
+4. Les bulletins et les statistiques se calculent. Les boutons « Exporter en PDF » créent les fichiers PDF.
+
+HÉBERGEMENT GRATUIT (exemples)
+- Netlify Drop : décompressez le dossier, puis glissez-le sur la page netlify.com/drop. Une adresse est créée aussitôt.
+- GitHub Pages ou Cloudflare Pages : créez un site avec ces deux fichiers à la racine.
+Ne communiquez aux enseignants que l'adresse de la racine du site.
+
+IMPORTANT
+- Vos données (élèves, notes, paramètres) sont enregistrées dans le navigateur de l'appareil que vous utilisez pour l'administration. Il n'y a pas de synchronisation entre appareils.
+- Utilisez toujours le même appareil et le même navigateur pour l'administration.
+- Onglet « Sauvegarde » : téléchargez une sauvegarde régulièrement (après chaque import, par exemple) et gardez le fichier en lieu sûr. Vider les données du navigateur efface tout ; la sauvegarde permet de tout restaurer.
+- La page des enseignants enregistre leurs saisies sur leur appareil jusqu'à l'envoi du message.
+- L'export PDF télécharge deux petites bibliothèques depuis internet au premier chargement : une connexion est nécessaire à ce moment-là.
+- Aucun compte ni service tiers n'est nécessaire pour utiliser les pages.
